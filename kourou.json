@@ -1,0 +1,47 @@
+var json = `[
+	{
+        "name": "PFsense",
+        "description": "Firewall",
+        "link": "https://192.168.1.1"
+	},
+	{
+        "name": "CheckMK",
+        "description": "Monitoring",
+        "link": "http://192.168.1.2/site/check_mk/"
+	},
+	{
+        "name": "Edgerouter",
+        "description": "ER-X SFP",
+        "link": "https://192.168.1.3"
+	},
+  {
+        "name": "Proxmox",
+        "description": "Hypervisor",
+        "link": "https://192.168.1.4:8006"
+  },
+  {
+        "name": "OpenWRT",
+        "description": "Wifi AP",
+        "link": "http://192.168.1.5"
+	},
+	{
+        "name": "FritzBox",
+        "description": "Another Router",
+        "link": "https://192.168.1.6"
+	},
+	{
+        "name": "Nextcloud",
+        "description": "My Description here",
+        "link": "https://192.168.1.7"
+	},
+	{
+        "name": "Raspberry Pi",
+        "description": "A little Raspi",
+        "link": "http://192.168.1.8"
+	},
+	{
+        "name": "WLED",
+        "description": "LED Lamp",
+        "link": "http://192.168.1.9"
+	}   
+]`;
