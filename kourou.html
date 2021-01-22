@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/all.css" />
+		<link rel="stylesheet" type="text/css" href="kourou.css" />
+	</head>
+	<body>
+		<script type="text/javascript" src="kourou.json"></script>
+		<script type="text/javascript">
+			
+			var j = JSON.parse(json);
+
+			for(var i in j) {
+				document.write('\
+				<div class="tile" style="">\
+					<a href="' + j[i]["link" ] + '" target="_blank">\
+						<img class="ticon" src="icons/' + j[i]["name"].toLowerCase() + '.png">\
+					</a>\
+					<div class="tbasic">\
+							<div class="ttext">\
+							<a href="' + j[i]["link" ] + '" target="_blank">\
+								<h1>' + j[i]["name"] + '</h1>\
+								<hr>\
+								<p>' + j[i]["description"] + '</p>\
+						</a>\
+					<div class="textended">\
+						<a target="_blank" href="http://192.168.9.100/home/check_mk/search_open.py?q=' + j[i]["link"].replace(/https*:\/\//, '').replace(/:[0-9]*/,'').replace(/\/.*/,'') + '$"><i class="fas fa-chart-bar"></i></a>\
+						');
+						if(j[i]["name"].toLowerCase()=='wled') {
+							document.write('\
+							<i class="fas fa-power-off" onclick="hget(\'' + j[i]["link"] + '/win&T=2\')"></i>\
+							<i class="fas fa-sync-alt" onclick="hget(\'' + j[i]["link"] + '/win&RB\')"></i>\
+							<input class="slider" id="' + j[i]["link"].replace(/https*:\/\//, '') + '" type="range" min="4" max="255" value="128" onchange="wledBrightness(this)">');
+						}
+						document.write('\
+						</div>\
+						</div>\
+						</div>\
+					</div>\
+				</div>\
+				');
+			}
+
+			function wledBrightness(i) {
+				ws(i.id, '{"bri":' + i.value + '}');
+			}
+
+			function ws(url, json) {
+				var ws = new WebSocket('ws://' + url + '/ws');
+				
+				ws.onopen = function () {
+					ws.send(json);
+					console.log(json);
+				}
+
+				ws.onerror = function (error) {
+					console.log('WebSocket Error ' + error);
+				}
+
+				ws.onmessage = function (e) {
+					console.log('Server: ' + e.data);
+				}
+			}
+
+			function hget(url) {
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open("GET", url, true);
+				xmlHttp.send(null);
+			}
+		</script>
+		<a id="gitlink" href="https://github.com/jjx-/kourou" target="_blank"><i class="fab fa-github"></i></a>
+	</body>
+</html>
+
