@@ -24,7 +24,7 @@
 								<p>' + j[i]["description"] + '</p>\
 						</a>\
 					<div class="textended">\
-						<a target="_blank" href="http://192.168.9.100/home/check_mk/search_open.py?q=' + j[i]["link"].replace(/https*:\/\//, '').replace(/:[0-9]*/,'').replace(/\/.*/,'') + '$"><i class="fas fa-chart-bar"></i></a>\
+						<a target="_blank" href="http://192.168.1.2/site/check_mk/search_open.py?q=' + j[i]["link"].replace(/https*:\/\//, '').replace(/:[0-9]*/,'').replace(/\/.*/,'') + '$"><i class="fas fa-chart-bar"></i></a>\
 						');
 						if(j[i]["name"].toLowerCase()=='wled') {
 							document.write('\
