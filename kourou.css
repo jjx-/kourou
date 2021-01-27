@@ -1,14 +1,15 @@
 body{
- margin:0px;
- padding:25px;
- background: radial-gradient(ellipse at bottom, #2f6863 0%, #101010 100%);
- height: 100%;
- font-family: sans;
- color: white;
+    margin:0px;
+    padding:0px;
+    background: radial-gradient(ellipse at bottom, #2f6863 0%, #101010 100%);
+	height: 100%;
+    font-family: sans;
+    color: white;
+    background-attachment: fixed;
 }
 h1{
 	margin: 0px;
-	font-size: 24px;
+	font-size: 20px;
 }
 p{
 	margin-top: 0px;
@@ -18,23 +19,31 @@ a{
 	text-decoration: none;
 	color: white;
 }
-.tbasic{
-	display: flex;
-}
 .ticon{
-	width:100px;
-	height:100px;
+	width:90px;
+	height:90px;
 	margin: 0px;
 	border-radius: 10px;
-	background: white;
+	background: #0000002e;
+	text-align: center;
+	font-size:50px;
 }
-.ttext{
+.ticon i{
+	margin-top: 18px;
+}
+.ticon i:hover{
+	animation-name: bcp;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;}
+
+.tText{
 	margin: 0px;
 	margin-left: 10px;
 	overflow: hidden;
 }
 .tile{
-	width:300px;
+	width:260px;
 	border-radius:10px;
 	margin:10px;
 	padding: 15px;
@@ -50,11 +59,11 @@ a{
 	opacity: 1;
 	box-shadow:0px 0px 5px white;
 }
-.textended{
+.tActions{
 	opacity: 0.05;
 	transition: 1s;
 }
-.textended:hover{
+.tActions:hover{
 	opacity: 1.0;
 }
 .tbutton{
@@ -84,15 +93,88 @@ img.tbutton{
 	opacity: 1;
 	box-shadow: 0px 0px 3px white;
 }
-i.fas{
+i{
 	opacity: 0.5;
 	transition: 1s;
 }
-i.fas:hover{
+i:hover{
 	opacity: 1;
 }
 #gitlink{
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
+	height: 18px;
+	width:18px;
+	overflow: hidden;
+	transition: 1s;
+}
+#gitlink:hover{
+	width:unset;
+	overflow: unset;
+}
+.g{
+	clear: left;
+	margin-top: 15px;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+}
+.g i{
+	opacity: 1;
+}
+.gName{
+	margin-left:10px;
+}
+@media (min-width: 640px) {
+   .g{
+		width:620px;
+	}
+}
+@media (min-width: 950px) {
+   .g{
+		width:930px;
+	}
+}
+@media (min-width: 1260px) {
+   .g{
+		width:1240px;
+	}
+}
+@media (min-width: 1570px) {
+   .g{
+		width:1550px;
+	}
+}
+@media (min-width: 1880px) {
+   .g{
+		width:1860px;
+	}
+}
+@media (min-width: 2190px) {
+   .g{
+		width:2170px;
+	}
+}
+@media (min-width: 2500px) {
+   .g{
+		width:2480px;
+	}
+}
+@keyframes bcp {
+  0% {
+    color: white;
+  }
+  20% {
+    color: blue;
+  }
+  40% {
+    color: green;
+  }
+  60% {
+    color: yellow;
+  }
+  80% {
+    color: red;
+  }
 }
