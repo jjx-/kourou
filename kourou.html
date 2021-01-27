@@ -7,40 +7,151 @@
 	<body>
 		<script type="text/javascript" src="kourou.json"></script>
 		<script type="text/javascript">
-			
 			var j = JSON.parse(json);
-
-			for(var i in j) {
-				document.write('\
-				<div class="tile" style="">\
-					<a href="' + j[i]["link" ] + '" target="_blank">\
-						<img class="ticon" src="icons/' + j[i]["name"].toLowerCase() + '.png">\
-					</a>\
-					<div class="tbasic">\
-							<div class="ttext">\
-							<a href="' + j[i]["link" ] + '" target="_blank">\
-								<h1>' + j[i]["name"] + '</h1>\
-								<hr>\
-								<p>' + j[i]["description"] + '</p>\
-						</a>\
-					<div class="textended">\
-						<a target="_blank" href="http://192.168.1.2/site/check_mk/search_open.py?q=' + j[i]["link"].replace(/https*:\/\//, '').replace(/:[0-9]*/,'').replace(/\/.*/,'') + '$"><i class="fas fa-chart-bar"></i></a>\
+			for (g in j["groups"]) {
+				if(!j["groups"][g]["function"]) {
+					document.write('\
+					<div class="g">\
+						<div class="gName"><h1>\
 						');
-						if(j[i]["name"].toLowerCase()=='wled') {
-							document.write('\
-							<i class="fas fa-power-off" onclick="hget(\'' + j[i]["link"] + '/win&T=2\')"></i>\
-							<i class="fas fa-sync-alt" onclick="hget(\'' + j[i]["link"] + '/win&RB\')"></i>\
-							<input class="slider" id="' + j[i]["link"].replace(/https*:\/\//, '') + '" type="range" min="4" max="255" value="128" onchange="wledBrightness(this)">');
+						if(j["groups"][g]["icon"]) {
+							document.write('\<i class="' + j["groups"][g]["icon"] + '"></i>');
 						}
-						document.write('\
-						</div>\
-						</div>\
-						</div>\
-					</div>\
-				</div>\
-				');
-			}
+						document.write(' ' + j["groups"][g]["name"] + '</h1></div><div class="gContent">');
 
+					for(var i in j["groups"][g]["content"]) {
+						document.write('\
+						<div class="tile" style="">\
+							<a href="' + j["groups"][g]["content"][i]["link" ] + '" target="_blank">');
+								if(j["groups"][g]["content"][i]["icon"]) {
+									document.write('<div class="ticon"><i class="' + j["groups"][g]["content"][i]["icon"] + '"></i></div>');
+								}
+								else {
+									document.write('\
+									<img class="ticon" src="icons/' + j["groups"][g]["content"][i]["name"].toLowerCase() + '.png">');
+								}
+							document.write('\
+							</a>\
+									<div class="tText">\
+									<a href="' + j["groups"][g]["content"][i]["link" ] + '" target="_blank">\
+										<h1>' + j["groups"][g]["content"][i]["name"] + '</h1>\
+										<hr>\
+										<p>' + j["groups"][g]["content"][i]["description"] + '</p>\
+								</a>\
+							<div class="tActions">\
+								');
+								if(j["checkmkUrl"]) {
+									document.write('\
+									<a target="_blank" href="' + j["checkmkUrl"] + '/search_open.py?q=' + j["groups"][g]["content"][i]["link"].replace(/https*:\/\//, '').replace(/:[0-9]*/,'').replace(/\/.*/,'') + '$"><i class="fas fa-chart-bar"></i></a>\
+									');
+								}
+								if(j["groups"][g]["content"][i]["name"].toLowerCase()=='wled') {
+									document.write('\
+									<i class="fas fa-power-off" onclick="hget(\'' + j["groups"][g]["content"][i]["link"] + '/win&T=2\')"></i>\
+									<i class="fas fa-sync-alt" onclick="hget(\'' + j["groups"][g]["content"][i]["link"] + '/win&RB\')"></i>\
+									<input class="slider" id="' + j["groups"][g]["content"][i]["link"].replace(/https*:\/\//, '') + '" type="range" min="4" max="255" value="128" onchange="wledBrightness(this)">');
+								}
+								document.write('\
+								</div>\
+							</div>\
+						</div>\
+						');
+					}
+				}
+				else if(j["groups"][g]["function"]=="scenes") {
+					document.write('\
+					<div class="g">\
+						<div class="gName"><h1>\
+						');
+						if(j["groups"][g]["icon"]) {
+							document.write('\<i class="' + j["groups"][g]["icon"] + '"></i>');
+						}
+						document.write(' ' + j["groups"][g]["name"] + '</h1></div><div class="gContent">');
+					for (s in j["scenes"]) {
+						document.write('\
+						<div class="tile">\
+							<div class="ticon" onclick="scene(' + s + ')">');
+								if(j["scenes"][s]["icon"]) {
+									document.write('\<i class="' + j["scenes"][s]["icon"] + '"></i>');
+								}
+							document.write('\
+							</div>\
+							<div class="tText">\
+								<h1 onclick="scene(' + s + ')">' + j["scenes"][s]["name"] + '</h1>\
+								<hr>\
+								<p>');
+								if(j["scenes"][s]["description"]){
+									document.write(j["scenes"][s]["description"]);
+								}
+								else {
+									document.write('<br>');
+								}
+								document.write('\
+								</p>\
+								<div class="tActions">\
+									<input class="slider" type="range" min="4" max="255" value="' + j["scenes"][s]["brightness"] + '" onchange="sceneBrightness(s, this)">\
+								</div>\
+							</div>\
+						</div>');
+					}	
+				}
+				document.write('</div></div>');
+			}
+			
+			function scene (s) {
+				for (i in j["scenes"][s]["members"])  {
+					console.log(j["scenes"][s]["members"][i]);
+					
+					var bri = 0;
+					if(j["scenes"][s]["members"][i]["brightness"]){
+						bri = j["scenes"][s]["members"][i]["brightness"];
+					}
+					else{
+						bri = j["scenes"][s]["brightness"];
+					}
+					
+					var sx = 0;
+					if(j["scenes"][s]["members"][i]["speed"]){
+						sx = j["scenes"][s]["members"][i]["speed"];
+					}
+					else{
+						sx = j["scenes"][s]["speed"];
+					}
+					
+					var ix = 0;
+					if(j["scenes"][s]["members"][i]["intensity"]){
+						ix = j["scenes"][s]["members"][i]["intensity"];
+					}
+					else{
+						ix = j["scenes"][s]["intensity"];
+					}
+					
+					var fx = 0;
+					if(j["scenes"][s]["members"][i]["effect"]){
+						fx = j["scenes"][s]["members"][i]["effect"];
+					}
+					else{
+						fx = j["scenes"][s]["effect"];
+					}
+					
+					var pal = 0;
+					if(j["scenes"][s]["members"][i]["palette"]){
+						pal = j["scenes"][s]["members"][i]["palette"];
+					}
+					else{
+						pal = j["scenes"][s]["palette"];
+					}
+					
+					ws(j["scenes"][s]["members"][i]["address"], '{"bri":' + bri + ',"seg":[{"fx":' + fx + ',"pal":' + pal + ',"sx":' + sx + ',"ix":' + ix + '}]}');
+				}
+			}
+			function sceneBrightness (s, t) {
+				for (i in j["scenes"][s]["members"])  {
+					console.log(j["scenes"][s]["members"][i]);
+					ws(j["scenes"][s]["members"][i]["address"], '{"bri":' + t.value + '}');
+				}
+			}
+			document.write('</div></div>');
 			function wledBrightness(i) {
 				ws(i.id, '{"bri":' + i.value + '}');
 			}
@@ -50,15 +161,15 @@
 				
 				ws.onopen = function () {
 					ws.send(json);
-					console.log(json);
+					//console.log(json);
 				}
 
 				ws.onerror = function (error) {
-					console.log('WebSocket Error ' + error);
+					//console.log('WebSocket Error ' + error);
 				}
 
 				ws.onmessage = function (e) {
-					console.log('Server: ' + e.data);
+					//console.log('Server: ' + e.data);
 				}
 			}
 
@@ -68,7 +179,7 @@
 				xmlHttp.send(null);
 			}
 		</script>
-		<a id="gitlink" href="https://github.com/jjx-/kourou" target="_blank"><i class="fab fa-github"></i></a>
+		<a id="gitlink" href="https://github.com/jjx-/kourou" target="_blank"><i class="fab fa-github"></i> kourou on github</a>
 	</body>
 </html>
 
