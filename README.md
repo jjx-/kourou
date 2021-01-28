@@ -11,5 +11,5 @@ What is it about?
 
 Just put the .html, .css and .json file somewhere on your system. Syncing via your preferred cloud solution e.g. nextcloud is possible.
 
-* Fontawesome required
+* Fontawesome required https://github.com/FortAwesome/Font-Awesome
 * Icons 100x100px or bigger (or smaller, will upscale anyway) in the subfolder as xyz.png
